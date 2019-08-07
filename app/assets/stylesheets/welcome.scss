@@ -1,0 +1,15 @@
+// Place all the styles related to the welcome controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.grid-item {
+  border:1px solid #ddd;
+  height:50vh;
+  max-height: 50vh;
+  background: #f5f2f0;
+  scroll: auto;
+}

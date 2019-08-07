@@ -1,0 +1,63 @@
+<div class="grid-container">
+  <div class="grid-item">
+    <div id="editor" contenteditable="true">
+    <pre class="language-ruby">
+    <code>
+    if foo then
+      bar
+      end
+      </code>
+    </pre>
+    </div>
+
+  </div>
+  <div class="grid-item">
+    <div id="ast-editor-wrap">
+    <pre>
+    <code id="ast-editor">
+    </code>
+    </pre>
+    </div>
+
+
+  </div>
+  <div class="grid-item">
+    <pre>
+    <code>
+    if foo then
+      bar
+      end
+      </code>
+    </pre>
+
+
+  </div>
+  <div class="grid-item">
+    <pre>
+    <code>
+    if foo then
+      bar
+      end
+      </code>
+    </pre>
+
+
+  </div>
+</div>
+ <script>
+document.getElementById("editor").addEventListener("input", function(e) {
+  console.log(e.target.innerText);
+    console.log("input event fired");
+      $.ajax({
+      url: "/ast",
+      type: "post",
+        data: { code: e.target.innerText},
+        success: function(data) {
+console.log(data);
+          $('#ast-editor').text(data.ast);
+
+        },
+      error: function(data) {}
+    })
+}, false);
+ </script>
