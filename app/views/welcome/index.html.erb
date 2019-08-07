@@ -1,63 +1,88 @@
 <div class="grid-container">
   <div class="grid-item">
-    <div id="editor" contenteditable="true">
-    <pre class="language-ruby">
-    <code>
-    if foo then
-      bar
+    <textarea id="editor">
+      while true do
+        puts hello
       end
-      </code>
-    </pre>
-    </div>
+    </textarea>
 
   </div>
   <div class="grid-item">
     <div id="ast-editor-wrap">
-    <pre>
+      <pre>
     <code id="ast-editor">
     </code>
-    </pre>
+      </pre>
     </div>
 
 
   </div>
   <div class="grid-item">
-    <pre>
-    <code>
-    if foo then
-      bar
-      end
-      </code>
-    </pre>
-
+    <textarea id="transform-editor">
+      class RemoveDo < Parser::TreeRewriter
+  def on_while(node)
+    # Check if the statement starts with "do"
+    if node.location.begin.is?('do')
+      remove(node.location.begin)
+    end
+  end
+end
+    </textarea>
 
   </div>
   <div class="grid-item">
-    <pre>
-    <code>
+    <div contenteditable="true">
+      <pre class="language-ruby">
+    <code id="transformed-code">
     if foo then
       bar
       end
       </code>
-    </pre>
-
-
+      </pre>
+    </div>
   </div>
 </div>
- <script>
-document.getElementById("editor").addEventListener("input", function(e) {
-  console.log(e.target.innerText);
-    console.log("input event fired");
-      $.ajax({
+<script>
+
+  var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+    mode: "text/x-ruby",
+    matchBrackets: true,
+    indentUnit: 2,
+    lineNumbers: true,
+  });
+
+  function updateAst(code, transform) {
+    $('#transformed-code').text(code);
+    $.ajax({
       url: "/ast",
       type: "post",
-        data: { code: e.target.innerText},
-        success: function(data) {
-console.log(data);
-          $('#ast-editor').text(data.ast);
-
-        },
+      data: { code: code, transform: transform},
+      success: function(data) {
+        $('#ast-editor').text(data.ast);
+        $('#transformed-code').text(data.output);
+      },
       error: function(data) {}
     })
-}, false);
- </script>
+  }
+
+  editor.on("change",function(cm, change) {
+    let code = cm.getValue();
+    let transform = transformEditor.getValue();
+    updateAst(code, transform);
+  });
+
+  var transformEditor = CodeMirror.fromTextArea(document.getElementById("transform-editor"), {
+    mode: "text/x-ruby",
+    matchBrackets: true,
+    indentUnit: 2,
+    lineNumbers: true,
+  });
+
+
+  transformEditor.on("change",function(cm, change) {
+    console.log('transform change');
+    let transform = cm.getValue();
+    let code = editor.getValue();
+    updateAst(code, transform);
+  });
+</script>
