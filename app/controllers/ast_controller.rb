@@ -19,14 +19,9 @@ class AstController < ApplicationController
 
   def create
     p params
-    @ast = Parser::CurrentRuby.parse(params[:code])
-    p @ast
+    ast = Parser::CurrentRuby.parse(params[:code])
+    p ast
 
-    code = <<-EOF
-                      while true do
-                         puts 'hello'
-                         end
-    EOF
 
     buffer        = Parser::Source::Buffer.new('(example)')
     buffer.source = params[:code]
@@ -39,7 +34,7 @@ class AstController < ApplicationController
 
 
     respond_to do |format|
-      format.json { render :json => { ast: @ast.to_s, output: output.to_s } } 
+      format.json { render :json => { ast: ast.to_s, output: output.to_s } } 
     end
 
   end
