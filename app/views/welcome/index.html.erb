@@ -2,7 +2,7 @@
   <div class="grid-item">
     <textarea id="editor">
       while true do
-        puts hello
+      puts hello
       end
     </textarea>
 
@@ -14,52 +14,49 @@
     </code>
       </pre>
     </div>
-
-
   </div>
   <div class="grid-item">
     <textarea id="transform-editor">
       class RemoveDo < Parser::TreeRewriter
-  def on_while(node)
-    # Check if the statement starts with "do"
-    if node.location.begin.is?('do')
-      remove(node.location.begin)
-    end
-  end
-end
+              def on_while(node)
+              # Check if the statement starts with "do"
+              if node.location.begin.is?('do')
+              remove(node.location.begin)
+              end
+              end
+              end
     </textarea>
 
   </div>
   <div class="grid-item">
-    <div contenteditable="true">
-      <pre class="language-ruby">
-    <code id="transformed-code">
-    if foo then
+    <textarea id="output-editor">
+      if foo then
       bar
       end
-      </code>
-      </pre>
-    </div>
+    </textarea>
   </div>
 </div>
 <script>
 
-  var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+  const editorOptions = {
     mode: "text/x-ruby",
     matchBrackets: true,
     indentUnit: 2,
     lineNumbers: true,
-  });
+    theme: 'solarized'
+  };
+
+  var editor = CodeMirror.fromTextArea(document.getElementById("editor"),editorOptions );
 
   function updateAst(code, transform) {
-    $('#transformed-code').text(code);
+    outputEditor.setValue(code);
     $.ajax({
       url: "/ast",
       type: "post",
       data: { code: code, transform: transform},
       success: function(data) {
         $('#ast-editor').text(data.ast);
-        $('#transformed-code').text(data.output);
+        $('#output-editor').text(data.output);
       },
       error: function(data) {}
     })
@@ -71,12 +68,7 @@ end
     updateAst(code, transform);
   });
 
-  var transformEditor = CodeMirror.fromTextArea(document.getElementById("transform-editor"), {
-    mode: "text/x-ruby",
-    matchBrackets: true,
-    indentUnit: 2,
-    lineNumbers: true,
-  });
+  var transformEditor = CodeMirror.fromTextArea(document.getElementById("transform-editor"), editorOptions);
 
 
   transformEditor.on("change",function(cm, change) {
@@ -85,4 +77,8 @@ end
     let code = editor.getValue();
     updateAst(code, transform);
   });
+
+  var outputEditor = CodeMirror.fromTextArea(document.getElementById("output-editor"), editorOptions);
+
+
 </script>
