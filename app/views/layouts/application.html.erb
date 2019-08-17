@@ -4,28 +4,50 @@
     <title>ruby-ast-explorer</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 
     <link href="codemirror.css" rel="stylesheet">
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <link rel="stylesheet" href="https://codemirror.net/theme/solarized.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script src="codemirror.js"></script>
-    <script src="https://codemirror.net/mode/ruby/ruby.js"></script>
   </head>
 
   <body>
-    <header>
-    <h1>ruby-ast-explorer</h1>
-    <button id="create-gist">Create gist</button>
-    <div>
-      Parser: <a href="https://github.com/whitequark/parser">parser 2.6.3.0</a>
-    </div>
-    </header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="primary-nav">
+      <a class="navbar-brand" href="#">ruby-ast-explorer</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <form class="form-inline">
+          <%#<button class="btn btn-secondary btn-sm mr-5" type="button">Export as gist</button>%>
+          <div class="custom-control custom-switch custom-control-inline">
+              <input type="checkbox" class="custom-control-input" id="switch-theme">
+                <label class="custom-control-label" for="switch-theme">Dark Theme</label>
+          </div>
+        </form>
+        <span class="navbar-text">
+          Parser: <a href="https://github.com/whitequark/parser">parser 2.6.3.0</a>
+        </span>
+      </div>
+    </nav>
     <%= yield %>
     <footer>
       <p>Built with 
       <a href="https://rubyonrails.org/">Rails 5.2.3</a>, 
       <a href="https://www.ruby-lang.org/en/">ruby 2.5.5p157</a> | <a href="https://github.com/rajasegar/ruby-ast-explorer">Github</a></p>
     </footer>
+
+    <script src="codemirror.js"></script>
+    <script src="https://codemirror.net/mode/ruby/ruby.js"></script>
   </body>
 </html>
