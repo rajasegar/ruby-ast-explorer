@@ -124,6 +124,21 @@ class Transform < Parser::TreeRewriter
     updateAst(code, transform);
   }, 250));
 
+  $('#create-gist').click(function() {
+$.ajax({
+      url: "/ast/gist",
+      type: "post",
+      data: { code: editor.getValue(), transform: transformEditor.getValue()},
+      success: function(data) {
+        console.log(data);
+      },
+  error: function(data) {
+    console.log('Gist creation failed');
+  }
+    });
+
+
+  });
 
 
 </script>

@@ -31,4 +31,15 @@ class AstController < ApplicationController
     end
 
   end
+
+  def gist
+    source = params[:code]
+    transform = params[:transform]
+    yml = "v:1\nparser:2.6.3.0\nrails:5.2.3\nruby:2.5.5p157"
+    Gist.login!
+    Gist.multi_gist("ast-explorer.yml" => yml, "source.rb" => source, "transform.rb" => transform)
+    respond_to do |format|
+      format.json { render :json => { message: "Success" } } 
+    end
+  end
 end
