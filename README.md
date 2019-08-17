@@ -1,25 +1,14 @@
-# README
+# ruby-ast-explorer
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Ruby Ast Explorer lets you to visualize your ruby code as AST(Abstract Syntax Trees). 
 
-Things you may want to cover:
+It has got four panes with the following content:
 
-* Ruby version
+*** **Top-Left => Original Source Code
+* Top-Right => AST representation in S-expressions
+* Bottom-Left => Transform Class
+* Bottom-Right => Output
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
 
 ## Reference:
 * https://whitequark.org/blog/2013/04/26/lets-play-with-ruby-code/

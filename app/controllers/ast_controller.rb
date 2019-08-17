@@ -10,12 +10,10 @@ class AstController < ApplicationController
   end
 
   def create
-    p params
     ast = Parser::CurrentRuby.parse(params[:code])
 
     # Doing eval is not that safe, need to sanitize
     eval(params[:transform])
-    pp ast
 
 
     buffer        = Parser::Source::Buffer.new('(example)')
@@ -26,7 +24,6 @@ class AstController < ApplicationController
 
     # Rewrite the AST, returns a String with the new form.
     output =  rewriter.rewrite(buffer, temp)
-    puts output
 
 
     respond_to do |format|

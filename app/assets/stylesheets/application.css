@@ -13,3 +13,27 @@
  *= require_tree .
  *= require_self
  */
+body {
+  font-family: Helvetica, sans-serif;
+  font-size: 13px;
+}
+
+h1 {
+  font-size: larger;
+}
+
+header {
+  display: grid;
+  grid-template-columns: auto 200px;
+}
+
+footer {
+  text-align: center;
+  position:fixed;
+  bottom: 0;
+  background: #ccc;
+  width: 100%;
+  z-index: 9999;
+  height: 30px;
+}
+

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>RubyAstExplorer</title>
+    <title>ruby-ast-explorer</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -14,6 +14,17 @@
   </head>
 
   <body>
+    <header>
+    <h1>ruby-ast-explorer</h1>
+    <div>
+      Parser: <a href="https://github.com/whitequark/parser">parser 2.6.3.0</a>
+    </div>
+    </header>
     <%= yield %>
+    <footer>
+      <p>Built with 
+      <a href="https://rubyonrails.org/">Rails 5.2.3</a>, 
+      <a href="https://www.ruby-lang.org/en/">ruby 2.5.5p157</a> | <a href="https://github.com/rajasegar/ruby-ast-explorer">Github</a></p>
+    </footer>
   </body>
 </html>
