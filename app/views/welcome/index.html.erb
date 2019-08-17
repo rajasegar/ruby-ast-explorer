@@ -17,14 +17,14 @@
   </div>
   <div class="grid-item">
     <textarea id="transform-editor">
-      class RemoveDo < Parser::TreeRewriter
-              def on_while(node)
-              # Check if the statement starts with "do"
-              if node.location.begin.is?('do')
-              remove(node.location.begin)
-              end
-              end
-              end
+class Transform < Parser::TreeRewriter
+          def on_while(node)
+            # Check if the statement starts with "do"
+            if node.location.begin.is?('do')
+            remove(node.location.begin)
+            end
+            end
+            end
     </textarea>
 
   </div>
@@ -49,14 +49,13 @@
   var editor = CodeMirror.fromTextArea(document.getElementById("editor"),editorOptions );
 
   function updateAst(code, transform) {
-    outputEditor.setValue(code);
     $.ajax({
       url: "/ast",
       type: "post",
       data: { code: code, transform: transform},
       success: function(data) {
         $('#ast-editor').text(data.ast);
-        $('#output-editor').text(data.output);
+        outputEditor.setValue(data.output);
       },
       error: function(data) {}
     })
