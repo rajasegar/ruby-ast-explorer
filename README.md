@@ -1,10 +1,10 @@
 # ruby-ast-explorer
 
-Ruby Ast Explorer lets you to visualize your ruby code as AST(Abstract Syntax Trees). 
+AST Explorer lets you to visualize your ruby code as AST(Abstract Syntax Trees). 
 
 It has got four panes with the following content:
 
-* **Top-Left => Original Source Code
+* Top-Left => Original Source Code
 * Top-Right => AST representation in S-expressions
 * Bottom-Left => Transform Class
 * Bottom-Right => Output
@@ -19,3 +19,4 @@ It has got four panes with the following content:
 * https://gist.github.com/jonatas/e70c874cbbd0cac5a9abd9f4a78fa816
 * https://github.com/jonatas/fast
 * http://www.zenspider.com/projects/ruby2ruby.html
+* [Parsing Ruby](https://whitequark.org/blog/2012/10/02/parsing-ruby/)
