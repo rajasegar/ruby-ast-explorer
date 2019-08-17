@@ -4,10 +4,12 @@ Ruby Ast Explorer lets you to visualize your ruby code as AST(Abstract Syntax Tr
 
 It has got four panes with the following content:
 
-*** **Top-Left => Original Source Code
+* **Top-Left => Original Source Code
 * Top-Right => AST representation in S-expressions
 * Bottom-Left => Transform Class
 * Bottom-Right => Output
+
+![screenshot](https://github.com/rajasegar/ruby-ast-explorer/blob/master/public/screenshot.png)
 
 
 ## Reference:
