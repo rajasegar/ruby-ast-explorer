@@ -37,3 +37,6 @@ footer {
   height: 30px;
 }
 
+.CodeMirror {
+  height: 49vh;
+}

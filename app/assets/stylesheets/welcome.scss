@@ -1,19 +1,19 @@
 // Place all the styles related to the welcome controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.grid-container {
+
+
+.grid-col {
   display: grid;
-  grid-template-columns: auto auto;
-  padding-bottom: 20px;
+  grid-template-columns: 1fr 1fr;
 }
 
-.grid-item {
-  border:1px solid #ddd;
-  height:50vh;
-  max-height: 50vh;
-  background: #f5f2f0;
-  scroll: auto;
+.grid-row {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
 }
+
+
 
 .bg-dark .custom-control-label {
   color: white;

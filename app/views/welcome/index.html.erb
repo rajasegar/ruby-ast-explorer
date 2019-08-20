@@ -1,31 +1,26 @@
-<div class="grid-container">
-  <div class="grid-item">
+<div class="grid-row">
+  <div class="grid-col">
     <textarea id="editor">
       while true do
       puts hello
       end
     </textarea>
 
-  </div>
-  <div class="grid-item">
-    <div id="ast-editor-wrap">
     <textarea id="ast-editor">
     </textarea>
-    </div>
   </div>
-  <div class="grid-item">
+  <div class="grid-col">
+
     <textarea id="transform-editor">
-class Transform < Parser::TreeRewriter
-          def on_while(node)
-            # Check if the statement starts with "do"
-            if node.location.begin.is?('do')
-            remove(node.location.begin)
-            end
-            end
-            end
+      class Transform < Parser::TreeRewriter
+              def on_while(node)
+              # Check if the statement starts with "do"
+              if node.location.begin.is?('do')
+              remove(node.location.begin)
+              end
+              end
+              end
     </textarea>
-  </div>
-  <div class="grid-item">
     <textarea id="output-editor">
       if foo then
       bar
