@@ -1,8 +1,11 @@
 <div class="grid-row">
   <div class="grid-col">
     <textarea id="editor">
-      while true do
-      puts hello
+      # Paste some ruby code here and 
+      # check the generated AST on the right
+      tips = ["hello", "world"]
+      def print_tips
+        tips.each { |key, value| print "Tip #{key}: #{value}" }
       end
     </textarea>
 
@@ -12,19 +15,20 @@
   <div class="grid-col">
 
     <textarea id="transform-editor">
+      # Your Transform Class should always extend from 
+      # Parser:: TreeRewriter
       class Transform < Parser::TreeRewriter
-              def on_while(node)
-              # Check if the statement starts with "do"
-              if node.location.begin.is?('do')
-              remove(node.location.begin)
-              end
-              end
-              end
+        def on_lvasgn(node)
+        # Reverse the variable names
+        replace(node.loc.to_hash[:name], node.children[0].to_s.reverse)
+        end
+
+        def on_def(node)
+        replace(node.loc.to_hash[:name], node.children[0].to_s.reverse)
+        end
+      end
     </textarea>
     <textarea id="output-editor">
-      if foo then
-      bar
-      end
     </textarea>
   </div>
 </div>

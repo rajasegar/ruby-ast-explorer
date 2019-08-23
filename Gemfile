@@ -64,3 +64,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'parser'
 gem 'jquery-rails'
 gem 'gist'
+gem 'omniauth-github'
