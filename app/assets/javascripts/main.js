@@ -7,15 +7,25 @@ document.addEventListener('DOMContentLoaded', function() {
     theme: 'solarized'
   };
 
+  const astEditorOptions = {
+    mode: "text/x-ruby",
+    matchBrackets: true,
+    indentUnit: 2,
+    theme: 'solarized',
+    readOnly: true
+  };
+
+
   var editor = CodeMirror.fromTextArea(document.getElementById("editor"),editorOptions );
   var transformEditor = CodeMirror.fromTextArea(document.getElementById("transform-editor"), editorOptions);
   var outputEditor = CodeMirror.fromTextArea(document.getElementById("output-editor"), editorOptions);
-  var astEditor = CodeMirror.fromTextArea(document.getElementById("ast-editor"), { ...editorOptions, readOnly: true });
+  var astEditor = CodeMirror.fromTextArea(document.getElementById("ast-editor"), astEditorOptions);
 
 
 
   updateAst(editor.getValue(), transformEditor.getValue());
 
+  initTree();
   indentAll();
 
   function indentAll() {
@@ -48,10 +58,12 @@ document.addEventListener('DOMContentLoaded', function() {
       data: { code: code, transform: transform},
       success: function(data) {
         astEditor.setValue(data.ast);
+        buildTreeView(data.treeData);
         outputEditor.setValue(data.output);
       },
       error: function(data) {}
     });
+
 
 
   }
@@ -83,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   transformEditor.on("change",debounce(function(cm, change) {
     console.log('transform change');
+    
     let transform = cm.getValue();
     let code = editor.getValue();
     updateAst(code, transform);
@@ -122,5 +135,33 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
     });
+
+
+    $('#show-console').on('click', function(e) {
+      console.log('show console');
+      if(e.target.checked) {
+        $('#console').css({ display: "block" });
+      } else
+      {
+        $('#console').css({ display: "none" });
+      }
+
+    });
+
+  function initTree() {
+    var trees = document.querySelectorAll('[role="tree"]');
+
+    for (var i = 0; i < trees.length; i++) {
+      var t = new TreeLinks(trees[i]);
+      t.init();
+    }
+  }
+
+  function buildTreeView(ast) {
+    console.log(JSON.parse(ast));
+    Object.keys(ast).forEach(node => {
+      console.log(node.label);
+    });
+  }
 
 });
