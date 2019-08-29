@@ -38,12 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let pos = 0;
     for(index = 0; index < totalLines; index++ ) {
-      //console.log(doc.getLine(index));
       let lineLength = doc.getLine(index).length + 1; // Adding 1 for new line
-      //console.log('lineLength = ', lineLength);
-      //console.log('begin = ', begin);
-      //console.log('end = ', end);
-      console.log(pos);
       if(begin < pos + lineLength) {
         break;
       } else {
@@ -145,7 +140,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
   transformEditor.on("change",debounce(function(cm, change) {
-    console.log('transform change');
     
     let transform = cm.getValue();
     let code = editor.getValue();
@@ -188,16 +182,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    $('#show-console').on('click', function(e) {
-      console.log('show console');
-      if(e.target.checked) {
-        $('#console').css({ display: "block" });
-      } else
-      {
-        $('#console').css({ display: "none" });
-      }
-
-    });
 
   function initTree() {
     var trees = document.querySelectorAll('[role="tree"]');
@@ -210,7 +194,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function buildTreeView(ast) {
     let treeData = JSON.parse(ast);
-    console.log(treeData);
 
     function traverse(node) {
 
@@ -333,12 +316,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   $(document).on('click', '[role="treeitem"]',function(event) {
     let { beginPos, endPos } = event.currentTarget.dataset;
-    console.log(event.currentTarget.dataset);
     if(beginPos && endPos) {
       let markFrom = getFromLine(beginPos);
       let markTo =  getEndLine(beginPos, endPos);
       markTo.ch = endPos + markFrom.ch;
-      console.log(markFrom, markTo);
 
       // Clearing and pushing markers
       markers.forEach(marker => marker.clear());
