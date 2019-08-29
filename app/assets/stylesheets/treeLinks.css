@@ -66,3 +66,7 @@ ul[role="tree"] a {
 [role="treeitem"] span.hover {
   background-color: #ddd;
 }
+
+[role="treeitem"] span:hover {
+  background-color: #ddd;
+}

@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     matchBrackets: true,
     indentUnit: 2,
     lineNumbers: true,
-    theme: 'solarized'
+    theme: 'solarized',
+    styleSelectedText: true,
   };
 
   const astEditorOptions = {
@@ -26,6 +27,57 @@ document.addEventListener('DOMContentLoaded', function() {
   updateAst(editor.getValue(), transformEditor.getValue());
 
   indentAll();
+
+
+
+  function getFromLine(begin) {
+    let index = 0;
+
+    let doc = editor.getDoc();
+    let totalLines = doc.lineCount();
+
+    let pos = 0;
+    for(index = 0; index < totalLines; index++ ) {
+      //console.log(doc.getLine(index));
+      let lineLength = doc.getLine(index).length + 1; // Adding 1 for new line
+      //console.log('lineLength = ', lineLength);
+      //console.log('begin = ', begin);
+      //console.log('end = ', end);
+      console.log(pos);
+      if(begin < pos + lineLength) {
+        break;
+      } else {
+
+      pos += lineLength; 
+      }
+    }
+
+    let _line = index;
+    let _ch = Math.abs(pos - begin);
+    return { line: _line, ch: _ch };
+  }
+
+  function getEndLine(begin, end) {
+    let index = 0;
+
+    let doc = editor.getDoc();
+    let totalLines = doc.lineCount();
+
+    let pos = 0;
+    for(index = 0; index < totalLines; index++ ) {
+      let lineLength = doc.getLine(index).length + 1; // Adding 1 for new line
+        pos += lineLength;
+      if(end > pos) {
+        continue;
+      } else { 
+        break;
+      }
+    }
+
+    let _line = index;
+    let _ch = Math.abs(begin - end);
+    return { line: _line, ch: _ch };
+  }
 
   function indentAll() {
     indentCode(editor);
@@ -164,12 +216,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
       let treeHtml = '';
       if(node) {
+        let { location } = node;
+        let { begin, end, expression, keyword, name, operator }  = location;
+        if(expression) {
+          let { begin_pos, end_pos } = expression;
+        treeHtml += `<li role="treeitem" aria-expanded="true" data-begin-pos="${begin_pos}" data-end-pos="${end_pos}"><span >${node['type']}</span>`;
+        } else {
         treeHtml += `<li role="treeitem" aria-expanded="true"><span>${node['type']}</span>`;
+        }
         treeHtml += `<ul>`;
 
         // Create location node
-        if(node['location']) {
-          let { begin, end, expression, keyword, name, operator }  = node['location'];
+        if(location) {
 
           treeHtml += `<li role="treeitem" aria-expanded="false"><span>location</span><ul>`;
 
@@ -270,5 +328,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     initTree();
   }
+
+  const markers = [];
+
+  $(document).on('click', '[role="treeitem"]',function(event) {
+    let { beginPos, endPos } = event.currentTarget.dataset;
+    console.log(event.currentTarget.dataset);
+    if(beginPos && endPos) {
+      let markFrom = getFromLine(beginPos);
+      let markTo =  getEndLine(beginPos, endPos);
+      markTo.ch = endPos + markFrom.ch;
+      console.log(markFrom, markTo);
+
+      // Clearing and pushing markers
+      markers.forEach(marker => marker.clear());
+      let currentMark = editor.markText(markFrom, markTo, { className: 'styled-background'});
+      markers.push(currentMark);
+    }
+
+    event.stopPropagation();
+  });
+
 
 });

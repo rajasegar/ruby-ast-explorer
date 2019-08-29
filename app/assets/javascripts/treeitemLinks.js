@@ -84,6 +84,7 @@ TreeitemLink.prototype.init = function () {
   this.domNode.addEventListener('focus', this.handleFocus.bind(this));
   this.domNode.addEventListener('blur', this.handleBlur.bind(this));
 
+  /*
   if (this.isExpandable) {
     this.domNode.firstElementChild.addEventListener('mouseover', this.handleMouseOver.bind(this));
     this.domNode.firstElementChild.addEventListener('mouseout', this.handleMouseOut.bind(this));
@@ -92,6 +93,7 @@ TreeitemLink.prototype.init = function () {
     this.domNode.addEventListener('mouseover', this.handleMouseOver.bind(this));
     this.domNode.addEventListener('mouseout', this.handleMouseOut.bind(this));
   }
+  */
 };
 
 TreeitemLink.prototype.isExpanded = function () {
@@ -238,7 +240,7 @@ TreeitemLink.prototype.handleClick = function (event) {
     else {
       this.tree.expandTreeitem(this);
     }
-    event.stopPropagation();
+    //event.stopPropagation();
   }
 };
 
@@ -259,7 +261,8 @@ TreeitemLink.prototype.handleBlur = function (event) {
 };
 
 TreeitemLink.prototype.handleMouseOver = function (event) {
-  event.currentTarget.classList.add('hover');
+  //event.currentTarget.classList.add('hover');
+  console.log('hover'); 
 };
 
 TreeitemLink.prototype.handleMouseOut = function (event) {

@@ -50,3 +50,7 @@ footer {
   max-height: 49vh;
   overflow: auto;
 }
+
+.styled-background {
+  background-color: #ff7;
+}
