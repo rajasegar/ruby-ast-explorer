@@ -11,6 +11,7 @@
 .grid-row {
   display: grid;
   grid-template-rows: 1fr 1fr;
+  overflow: hidden;
 }
 
 

@@ -9,42 +9,45 @@
       end
     </textarea>
 
-    <div>
+    <div id="tab-wrapper">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">S-expressions</a>
+          <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#tree-view" role="tab" aria-controls="profile" aria-selected="true">Tree</a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tree</a>
+          <a class="nav-link" id="home-tab" data-toggle="tab" href="#s-exp-view" role="tab" aria-controls="home" aria-selected="false">S-expressions</a>
         </li>
       </ul>
       <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-          <textarea id="ast-editor"></textarea>
+        <div class="tab-pane show active" id="tree-view" role="tabpanel" aria-labelledby="profile-tab">
+          <ul role="tree" id="ast-tree">
+          </ul>
         </div>
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-          <%= render "tree-view" %>
+
+        <div class="tab-pane" id="s-exp-view" role="tabpanel" aria-labelledby="home-tab">
+          <textarea id="ast-editor"></textarea>
         </div>
       </div>
     </div>
   </div>
-    <div class="grid-col">
+  <div class="grid-col">
 
-      <textarea id="transform-editor">
-        # Your Transform Class should always extend from 
-        # Parser:: TreeRewriter
-        class Transform < Parser::TreeRewriter
-                def on_lvasgn(node)
-                # Reverse the variable names
-                replace(node.loc.to_hash[:name], node.children[0].to_s.reverse)
-                end
+    <textarea id="transform-editor">
+      # Your Transform Class should always extend from 
+      # Parser:: TreeRewriter
+      class Transform < Parser::TreeRewriter
+              def on_lvasgn(node)
+              # Reverse the variable names
+              replace(node.loc.to_hash[:name], node.children[0].to_s.reverse)
+              end
 
-                def on_def(node)
-                replace(node.loc.to_hash[:name], node.children[0].to_s.reverse)
-                end
-                end
-      </textarea>
-      <textarea id="output-editor">
-      </textarea>
-    </div>
+              def on_def(node)
+              replace(node.loc.to_hash[:name], node.children[0].to_s.reverse)
+              end
+              end
+    </textarea>
+    <textarea id="output-editor">
+    </textarea>
   </div>
+</div>

@@ -19,6 +19,7 @@ class AstController < ApplicationController
 
   def traverse(root, node)
     node.children.each do |child|
+      #p child.to_json
       label = case child
               when Integer; child
               when NilClass; 'nil'
@@ -80,7 +81,7 @@ class AstController < ApplicationController
 
 
     respond_to do |format|
-      format.json { render :json => { ast: ast.to_s, output: output.to_s, treeData: myjson.to_json } } 
+      format.json { render :json => { ast: ast.to_s, output: output.to_s, treeData: ast.to_json } } 
     end
 
   end

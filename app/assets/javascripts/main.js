@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   updateAst(editor.getValue(), transformEditor.getValue());
 
-  initTree();
   indentAll();
 
   function indentAll() {
@@ -158,10 +157,118 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function buildTreeView(ast) {
-    console.log(JSON.parse(ast));
-    Object.keys(ast).forEach(node => {
-      console.log(node.label);
-    });
+    let treeData = JSON.parse(ast);
+    console.log(treeData);
+
+    function traverse(node) {
+
+      let treeHtml = '';
+      if(node) {
+        treeHtml += `<li role="treeitem" aria-expanded="true"><span>${node['type']}</span>`;
+        treeHtml += `<ul>`;
+
+        // Create location node
+        if(node['location']) {
+          let { begin, end, expression, keyword, name, operator }  = node['location'];
+
+          treeHtml += `<li role="treeitem" aria-expanded="false"><span>location</span><ul>`;
+
+          // Create begin node
+          if(begin) {
+            let { begin_pos, end_pos } = begin;
+          treeHtml += `<li role="treeitem" aria-expanded="false"><span>begin</span>`;
+          treeHtml += `<ul>`;
+          treeHtml += `<li role="none"><span>begin_pos: ${begin_pos} </span></li>`;
+          treeHtml += `<li role="none"><span>end_pos: ${end_pos} </span></li>`;
+          treeHtml += `</ul>`;
+            treeHtml += `</li>`;
+          } else {
+          treeHtml += `<li role="none"><span>begin: null</span></li>`;
+          }
+
+
+          // Create end node
+          if(end) {
+            let { begin_pos, end_pos } = end;
+          treeHtml += `<li role="treeitem" aria-expanded="false"><span>end</span>`;
+          treeHtml += `<ul>`;
+          treeHtml += `<li role="none"><span>begin_pos: ${begin_pos} </span></li>`;
+          treeHtml += `<li role="none"><span>end_pos: ${end_pos} </span></li>`;
+          treeHtml += `</ul>`;
+            treeHtml += `</li>`;
+          } else {
+          treeHtml += `<li role="none"><span>end: null</span></li>`;
+          }
+
+
+          // Create expression node
+          if(expression) {
+            let { begin_pos, end_pos }  = expression;
+            treeHtml += `<li role="treeitem" aria-expanded="false"><span>expression</span><ul>`;
+            treeHtml += `<li role="none"><span>begin_pos: ${begin_pos}</span></li>`;
+            treeHtml += `<li role="none"><span>end_pos: ${end_pos}</span></li>`;
+            treeHtml += `</ul></li>`;
+          }
+
+          // Create keyword node
+
+          if(keyword) {
+            let { begin_pos, end_pos }  = keyword;
+            treeHtml += `<li role="treeitem" aria-expanded="false"><span>keyword</span><ul>`;
+            treeHtml += `<li role="none"><span>begin_pos: ${begin_pos}</span></li>`;
+            treeHtml += `<li role="none"><span>end_pos: ${end_pos}</span></li>`;
+            treeHtml += `</ul></li>`;
+          }
+
+          // Create name node
+          if(name) {
+            let { begin_pos, end_pos }  = name;
+            treeHtml += `<li role="treeitem" aria-expanded="false"><span>name</span><ul>`;
+            treeHtml += `<li role="none"><span>begin_pos: ${begin_pos}</span></li>`;
+            treeHtml += `<li role="none"><span>end_pos: ${end_pos}</span></li>`;
+            treeHtml += `</ul></li>`;
+          }
+
+          // Create operator node
+          if(operator) {
+            let { begin_pos, end_pos }  = operator;
+            treeHtml += `<li role="treeitem" aria-expanded="false"><span>operator</span><ul>`;
+            treeHtml += `<li role="none"><span>begin_pos: ${begin_pos}</span></li>`;
+            treeHtml += `<li role="none"><span>end_pos: ${end_pos}</span></li>`;
+            treeHtml += `</ul></li>`;
+          } else {
+            treeHtml += `<li role="none"><span>operator: null</span></li>`;
+
+          }
+
+
+          treeHtml += `</ul></li>`;
+        }
+
+
+        if(node.children) {
+          treeHtml += `<li role="treeitem" aria-expanded="false"><span>children: []</span><ul>`;
+          node.children.forEach(child => {
+            if(typeof child === 'object') {
+              treeHtml += traverse(child);
+            } else {
+              treeHtml += `<li role="none"><span>"${child}"</span></li>`;
+            }
+          });
+
+          treeHtml += `</ul></li>`;
+        }
+        treeHtml += `</ul>`;
+        treeHtml += '</li>';
+      }
+
+      return treeHtml;
+    }
+
+
+    document.getElementById('ast-tree').innerHTML = traverse(treeData);
+
+    initTree();
   }
 
 });
