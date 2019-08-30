@@ -14,11 +14,8 @@ class AstController < ApplicationController
   def create
     ast = Parser::CurrentRuby.parse(params[:code])
 
-    pp ast.to_json
-
     # Doing eval is not that safe, need to sanitize
     eval(params[:transform])
-
 
     buffer        = Parser::Source::Buffer.new('(example)')
     buffer.source = params[:code]

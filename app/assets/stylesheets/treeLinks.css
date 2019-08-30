@@ -1,13 +1,15 @@
 ul[role="tree"] {
-  margin: 0;
+  margin: 0 0 0 1em;
   padding: 0;
   list-style: none;
+  font-family: monospace, serif;
 }
 
 ul[role="tree"] li {
   margin: 0;
   padding: 0;
   list-style: none;
+  cursor: pointer;
 }
 
 ul[role="tree"] a {
@@ -30,15 +32,17 @@ ul[role="tree"] a {
 }
 
 [role="treeitem"][aria-expanded="false"] > span::before {
-  content: url(/images/right-arrow-brown.png);
+  content: "+";
   position: relative;
-  left: -0.25em;
+  right: 0.5em;
+  color: green;
 }
 
 [role="treeitem"][aria-expanded="true"] > span::before {
-  content: url(/images/down-arrow-brown.png);
+  content: "-";
   position: relative;
-  left: -0.25em;
+  right: 0.5em;
+  color: red;
 }
 
 [role="treeitem"],
@@ -46,8 +50,8 @@ ul[role="tree"] a {
   width: 16em;
   margin: 0;
   padding: 0.125em;
-  border: 2px transparent solid;
   display: block;
+  color: #B58900;
 }
 
 /* disable default keyboard focus styling for treeitems
@@ -70,3 +74,9 @@ ul[role="tree"] a {
 [role="treeitem"] span:hover {
   background-color: #ddd;
 }
+
+span.blue {
+  color: blue;
+  display: inline;
+}
+

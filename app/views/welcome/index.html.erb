@@ -3,7 +3,12 @@
     <textarea id="editor">
 # Paste some ruby code here and
 # check the generated AST on the right
-tips = ["hello", "world"]
+tips = [
+ "Click on any AST node with a '+' to expand it",
+
+  "Hovering over a node highlights the \
+   corresponding part in the source code",
+]
 def print_tips
 tips.each { |key, value| print "Tip #{key}: #{value}" }
 end
@@ -20,12 +25,12 @@ end
         </li>
       </ul>
       <div class="tab-content" id="myTabContent">
-        <div class="tab-pane show active" id="tree-view" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane fade show active" id="tree-view" role="tabpanel" aria-labelledby="profile-tab">
           <ul role="tree" id="ast-tree">
           </ul>
         </div>
 
-        <div class="tab-pane" id="s-exp-view" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade" id="s-exp-view" role="tabpanel" aria-labelledby="home-tab">
           <textarea id="ast-editor"></textarea>
         </div>
       </div>

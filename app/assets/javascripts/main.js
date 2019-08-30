@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+  const markers = [];
+
   const editorOptions = {
     mode: "text/x-ruby",
     matchBrackets: true,
@@ -17,17 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
 
-  var editor = CodeMirror.fromTextArea(document.getElementById("editor"),editorOptions );
-  var transformEditor = CodeMirror.fromTextArea(document.getElementById("transform-editor"), editorOptions);
-  var outputEditor = CodeMirror.fromTextArea(document.getElementById("output-editor"), editorOptions);
-  var astEditor = CodeMirror.fromTextArea(document.getElementById("ast-editor"), astEditorOptions);
-
-
-
-  updateAst(editor.getValue(), transformEditor.getValue());
-
-  indentAll();
-
+  const editor = CodeMirror.fromTextArea(document.getElementById("editor"),editorOptions );
+  const transformEditor = CodeMirror.fromTextArea(document.getElementById("transform-editor"), editorOptions);
+  const outputEditor = CodeMirror.fromTextArea(document.getElementById("output-editor"), editorOptions);
+  const astEditor = CodeMirror.fromTextArea(document.getElementById("ast-editor"), astEditorOptions);
 
 
   function getFromLine(begin) {
@@ -43,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         break;
       } else {
 
-      pos += lineLength; 
+        pos += lineLength; 
       }
     }
 
@@ -61,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let pos = 0;
     for(index = 0; index < totalLines; index++ ) {
       let lineLength = doc.getLine(index).length + 1; // Adding 1 for new line
-        pos += lineLength;
+      pos += lineLength;
       if(end > pos) {
         continue;
       } else { 
@@ -83,14 +79,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // https://davidwalsh.name/javascript-debounce-function
   function debounce(func, wait, immediate) {
-    var timeout;
+    let timeout;
     return function() {
-      var context = this, args = arguments;
-      var later = function() {
+      const context = this, args = arguments;
+      const later = function() {
         timeout = null;
         if (!immediate) func.apply(context, args);
       };
-      var callNow = immediate && !timeout;
+      const callNow = immediate && !timeout;
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
       if (callNow) func.apply(context, args);
@@ -131,6 +127,14 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
 
+
+  updateAst(editor.getValue(), transformEditor.getValue());
+
+  indentAll();
+
+
+
+  
   editor.on("change",debounce(function(cm, change) {
     let code = cm.getValue();
     let transform = transformEditor.getValue();
@@ -140,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
   transformEditor.on("change",debounce(function(cm, change) {
-    
+
     let transform = cm.getValue();
     let code = editor.getValue();
     updateAst(code, transform);
@@ -162,38 +166,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
   });
 
-    $('#switch-theme').on('click', function(e) {
-      const theme = e.target.checked ? 'solarized dark' : 'solarized';
-      editor.setOption('theme', theme);
-      astEditor.setOption('theme', theme);
-      transformEditor.setOption('theme', theme);
-      outputEditor.setOption('theme', theme);
+  $('#switch-theme').on('click', function(e) {
+    const theme = e.target.checked ? 'solarized dark' : 'solarized';
+    editor.setOption('theme', theme);
+    astEditor.setOption('theme', theme);
+    transformEditor.setOption('theme', theme);
+    outputEditor.setOption('theme', theme);
 
-      $primarynav = document.getElementById('primary-nav');
+    $primarynav = document.getElementById('primary-nav');
 
-      if(e.target.checked) {
+    if(e.target.checked) {
       $primarynav.classList.replace('navbar-light', 'navbar-dark');
       $primarynav.classList.replace('bg-light', 'bg-dark');
-      } else {
+    } else {
       $primarynav.classList.replace('navbar-dark', 'navbar-light');
       $primarynav.classList.replace('bg-dark', 'bg-light');
-      }
+    }
 
-    });
+  });
 
 
 
   function initTree() {
-    var trees = document.querySelectorAll('[role="tree"]');
+    const trees = document.querySelectorAll('[role="tree"]');
 
     for (var i = 0; i < trees.length; i++) {
-      var t = new TreeLinks(trees[i]);
+      const t = new TreeLinks(trees[i]);
       t.init();
     }
   }
 
   function buildTreeView(ast) {
     let treeData = JSON.parse(ast);
+    console.log(treeData);
 
     function traverse(node) {
 
@@ -203,9 +208,9 @@ document.addEventListener('DOMContentLoaded', function() {
         let { begin, end, expression, keyword, name, operator }  = location;
         if(expression) {
           let { begin_pos, end_pos } = expression;
-        treeHtml += `<li role="treeitem" aria-expanded="true" data-begin-pos="${begin_pos}" data-end-pos="${end_pos}"><span >${node['type']}</span>`;
+          treeHtml += `<li role="treeitem" aria-expanded="false" data-begin-pos="${begin_pos}" data-end-pos="${end_pos}"><span >${node['type']}: <span class="blue">#on_${node['type']}</span></span>`;
         } else {
-        treeHtml += `<li role="treeitem" aria-expanded="true"><span>${node['type']}</span>`;
+          treeHtml += `<li role="treeitem" aria-expanded="false"><span>${node['type']}</span>`;
         }
         treeHtml += `<ul>`;
 
@@ -217,28 +222,28 @@ document.addEventListener('DOMContentLoaded', function() {
           // Create begin node
           if(begin) {
             let { begin_pos, end_pos } = begin;
-          treeHtml += `<li role="treeitem" aria-expanded="false"><span>begin</span>`;
-          treeHtml += `<ul>`;
-          treeHtml += `<li role="none"><span>begin_pos: ${begin_pos} </span></li>`;
-          treeHtml += `<li role="none"><span>end_pos: ${end_pos} </span></li>`;
-          treeHtml += `</ul>`;
+            treeHtml += `<li role="treeitem" aria-expanded="false"><span>begin</span>`;
+            treeHtml += `<ul>`;
+            treeHtml += `<li role="none"><span>begin_pos: ${begin_pos} </span></li>`;
+            treeHtml += `<li role="none"><span>end_pos: ${end_pos} </span></li>`;
+            treeHtml += `</ul>`;
             treeHtml += `</li>`;
           } else {
-          treeHtml += `<li role="none"><span>begin: null</span></li>`;
+            treeHtml += `<li role="none"><span>begin: null</span></li>`;
           }
 
 
           // Create end node
           if(end) {
             let { begin_pos, end_pos } = end;
-          treeHtml += `<li role="treeitem" aria-expanded="false"><span>end</span>`;
-          treeHtml += `<ul>`;
-          treeHtml += `<li role="none"><span>begin_pos: ${begin_pos} </span></li>`;
-          treeHtml += `<li role="none"><span>end_pos: ${end_pos} </span></li>`;
-          treeHtml += `</ul>`;
+            treeHtml += `<li role="treeitem" aria-expanded="false"><span>end</span>`;
+            treeHtml += `<ul>`;
+            treeHtml += `<li role="none"><span>begin_pos: ${begin_pos} </span></li>`;
+            treeHtml += `<li role="none"><span>end_pos: ${end_pos} </span></li>`;
+            treeHtml += `</ul>`;
             treeHtml += `</li>`;
           } else {
-          treeHtml += `<li role="none"><span>end: null</span></li>`;
+            treeHtml += `<li role="none"><span>end: null</span></li>`;
           }
 
 
@@ -288,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         if(node.children) {
-          treeHtml += `<li role="treeitem" aria-expanded="false"><span>children: []</span><ul>`;
+          treeHtml += `<li role="treeitem" aria-expanded="false"><span>children: [ ]</span><ul>`;
           node.children.forEach(child => {
             if(typeof child === 'object') {
               treeHtml += traverse(child);
@@ -312,17 +317,16 @@ document.addEventListener('DOMContentLoaded', function() {
     initTree();
   }
 
-  const markers = [];
 
-  $(document).on('click', '[role="treeitem"]',function(event) {
+  $(document).on('mouseover', '[role="treeitem"]',function(event) {
     let { beginPos, endPos } = event.currentTarget.dataset;
+    // Clearing and pushing markers
+    markers.forEach(marker => marker.clear());
     if(beginPos && endPos) {
       let markFrom = getFromLine(beginPos);
       let markTo =  getEndLine(beginPos, endPos);
       markTo.ch = endPos + markFrom.ch;
 
-      // Clearing and pushing markers
-      markers.forEach(marker => marker.clear());
       let currentMark = editor.markText(markFrom, markTo, { className: 'styled-background'});
       markers.push(currentMark);
     }
@@ -330,5 +334,9 @@ document.addEventListener('DOMContentLoaded', function() {
     event.stopPropagation();
   });
 
+  $(document).on('mouseleave', '[role="treeitem"]',function(event) {
+    // Clearing and pushing markers
+    markers.forEach(marker => marker.clear());
+  });
 
 });
