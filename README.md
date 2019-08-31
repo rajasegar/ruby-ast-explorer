@@ -13,10 +13,20 @@ the same to do large scale refactorings with your ruby code base using a tool li
 $ codeshift -t transform.rb app/models/**/*.rb
 ```
 
+## Export as gist
+You can also export the source and transform code as gist to your Github account by clicking
+the `Export as gist` button. But before that you need to sign in with Github and give permission to create gists for this app named ruby-ast-explorer.
+
+
+And with that you can directly use the transform from your gist.
+```sh
+$ codeshift -t https://gist.githubusercontent.com/[user]/.../transform.rb  app/models/**/*.rb
+```
+
 It has got four panes with the following content:
 
 * Top-Left => Original Source Code
-* Top-Right => AST representation in S-expressions
+* Top-Right => AST in Tree and S-expressions formats
 * Bottom-Left => Transform Class
 * Bottom-Right => Output
 
