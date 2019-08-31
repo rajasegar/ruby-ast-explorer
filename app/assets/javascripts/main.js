@@ -151,15 +151,19 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 250));
 
   $('#create-gist').click(function() {
+    let _self = this;
+    _self.disabled = true;
     $.ajax({
       url: "/ast/gist",
       type: "post",
       data: { code: editor.getValue(), transform: transformEditor.getValue()},
       success: function(data) {
-        console.log(data);
+        window.alert(data.message);
+        _self.disabled = false;
       },
       error: function(data) {
-        console.log('Gist creation failed');
+        window.alert('Gist creation failed');
+        _self.disabled = false;
       }
     });
 

@@ -33,7 +33,7 @@
           <button id="create-gist" class="btn btn-secondary btn-sm mr-5"  type="button">Export as gist</button>
         <% else %>
 
-          <a class="btn btn-secondary btn-sm mr-5" href="/auth/github" role="button">Sign in with Github</a>
+          <a class="btn btn-secondary btn-sm mr-5" href="/auth/github" role="button" data-toggle="tooltip" data-placement="bottom" title="Please sign in to export your transforms as gist" >Sign in with Github</a>
         <% end %>
           <div class="custom-control custom-switch custom-control-inline">
             <input type="checkbox" class="custom-control-input" id="switch-theme">
@@ -45,6 +45,14 @@
         </span>
       </div>
     </nav>
+    <% flash.each do |key, value| %>
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <%= value %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <% end %>
     <%= yield %>
     <footer>
       <p>Built with 
