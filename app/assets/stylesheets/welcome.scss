@@ -9,6 +9,8 @@
 }
 
 .grid-row {
+  margin-top: 56px;
+  margin-bottom: 36px;
   display: grid;
   grid-template-rows: 1fr 1fr;
   overflow: hidden;

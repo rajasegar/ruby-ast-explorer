@@ -2,6 +2,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const markers = [];
 
+  const processorList = [
+    "arg",
+    "argument",
+    "back_ref",
+    "blockarg",
+    "casgn",
+    "const",
+    "cvar",
+    "cvasgn",
+    "def",
+    "defs",
+    "gvar",
+    "gvasgn",
+    "ivar",
+    "ivasgn",
+    "kwarg",
+    "kwoptarg",
+    "kwrestarg",
+    "lvar",
+    "lvasgn",
+    "nth_ref",
+    "op_asgn",
+    "optarg",
+    "procarg0",
+    "restarg",
+    "send",
+    "shadowarg",
+    "var",
+    "vasgn"
+  ];
+
   const editorOptions = {
     mode: "text/x-ruby",
     matchBrackets: true,
@@ -105,9 +136,18 @@ document.addEventListener('DOMContentLoaded', function() {
       },
       error: function(data) {}
     });
-
-
-
+  }
+  
+  function updateOutput(code, transform) {
+    $.ajax({
+      url: "/ast",
+      type: "post",
+      data: { code: code, transform: transform},
+      success: function(data) {
+        outputEditor.setValue(data.output);
+      },
+      error: function(data) {}
+    });
   }
 
   function indentCode(ed) {
@@ -144,10 +184,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
   transformEditor.on("change",debounce(function(cm, change) {
-
     let transform = cm.getValue();
     let code = editor.getValue();
-    updateAst(code, transform);
+    updateOutput(code, transform);
   }, 250));
 
   $('#create-gist').click(function() {
@@ -212,7 +251,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let { begin, end, expression, keyword, name, operator }  = location;
         if(expression) {
           let { begin_pos, end_pos } = expression;
-          treeHtml += `<li role="treeitem" aria-expanded="false" data-begin-pos="${begin_pos}" data-end-pos="${end_pos}"><span >${node['type']}: <span class="blue">#on_${node['type']}</span></span>`;
+          const processorNode = (type) => processorList.includes(type) ? `${type}: <span class="blue">#on_${type}</span>` : type;
+          treeHtml += `<li role="treeitem" aria-expanded="false" data-begin-pos="${begin_pos}" data-end-pos="${end_pos}"><span>${processorNode(node['type'])}</span>`;
         } else {
           treeHtml += `<li role="treeitem" aria-expanded="false"><span>${node['type']}</span>`;
         }
@@ -223,15 +263,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
           treeHtml += `<li role="treeitem" aria-expanded="false"><span>location</span><ul>`;
 
+          const locationNode = (node, name) => {
+            let str = '';
+            let { begin_pos, end_pos } = node;
+            str += `<li role="treeitem" aria-expanded="false" data-begin-pos="${begin_pos}" data-end-pos="${end_pos}"><span>${name}</span>`;
+            str += `<ul>`;
+            str += `<li role="none"><span>begin_pos: ${begin_pos} </span></li>`;
+            str += `<li role="none"><span>end_pos: ${end_pos} </span></li>`;
+            str += `</ul>`;
+            str += `</li>`;
+            return str;
+          }
+
           // Create begin node
           if(begin) {
-            let { begin_pos, end_pos } = begin;
-            treeHtml += `<li role="treeitem" aria-expanded="false"><span>begin</span>`;
-            treeHtml += `<ul>`;
-            treeHtml += `<li role="none"><span>begin_pos: ${begin_pos} </span></li>`;
-            treeHtml += `<li role="none"><span>end_pos: ${end_pos} </span></li>`;
-            treeHtml += `</ul>`;
-            treeHtml += `</li>`;
+            treeHtml += locationNode(begin, "begin");
           } else {
             treeHtml += `<li role="none"><span>begin: null</span></li>`;
           }
@@ -239,13 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
           // Create end node
           if(end) {
-            let { begin_pos, end_pos } = end;
-            treeHtml += `<li role="treeitem" aria-expanded="false"><span>end</span>`;
-            treeHtml += `<ul>`;
-            treeHtml += `<li role="none"><span>begin_pos: ${begin_pos} </span></li>`;
-            treeHtml += `<li role="none"><span>end_pos: ${end_pos} </span></li>`;
-            treeHtml += `</ul>`;
-            treeHtml += `</li>`;
+            treeHtml += locationNode(end, "end");
           } else {
             treeHtml += `<li role="none"><span>end: null</span></li>`;
           }
@@ -253,44 +293,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
           // Create expression node
           if(expression) {
-            let { begin_pos, end_pos }  = expression;
-            treeHtml += `<li role="treeitem" aria-expanded="false"><span>expression</span><ul>`;
-            treeHtml += `<li role="none"><span>begin_pos: ${begin_pos}</span></li>`;
-            treeHtml += `<li role="none"><span>end_pos: ${end_pos}</span></li>`;
-            treeHtml += `</ul></li>`;
+            treeHtml += locationNode(expression, "expression");
           }
 
           // Create keyword node
 
           if(keyword) {
-            let { begin_pos, end_pos }  = keyword;
-            treeHtml += `<li role="treeitem" aria-expanded="false"><span>keyword</span><ul>`;
-            treeHtml += `<li role="none"><span>begin_pos: ${begin_pos}</span></li>`;
-            treeHtml += `<li role="none"><span>end_pos: ${end_pos}</span></li>`;
-            treeHtml += `</ul></li>`;
+            treeHtml += locationNode(keyword, "keyword");
           }
 
           // Create name node
           if(name) {
-            let { begin_pos, end_pos }  = name;
-            treeHtml += `<li role="treeitem" aria-expanded="false"><span>name</span><ul>`;
-            treeHtml += `<li role="none"><span>begin_pos: ${begin_pos}</span></li>`;
-            treeHtml += `<li role="none"><span>end_pos: ${end_pos}</span></li>`;
-            treeHtml += `</ul></li>`;
+            treeHtml += locationNode(name, "name");
           }
 
           // Create operator node
           if(operator) {
-            let { begin_pos, end_pos }  = operator;
-            treeHtml += `<li role="treeitem" aria-expanded="false"><span>operator</span><ul>`;
-            treeHtml += `<li role="none"><span>begin_pos: ${begin_pos}</span></li>`;
-            treeHtml += `<li role="none"><span>end_pos: ${end_pos}</span></li>`;
-            treeHtml += `</ul></li>`;
+            treeHtml += locationNode(operator, "operator");
           } else {
             treeHtml += `<li role="none"><span>operator: null</span></li>`;
-
           }
-
 
           treeHtml += `</ul></li>`;
         }
@@ -299,10 +321,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if(node.children) {
           treeHtml += `<li role="treeitem" aria-expanded="false"><span>children: [ ]</span><ul>`;
           node.children.forEach(child => {
-            if(typeof child === 'object') {
+            debugger;
+            if(child == null) {
+              treeHtml += `<li role="none"><span>nil</span></li>`;
+            } else if(node['type'] === "sym") {
+              treeHtml += `<li role="none"><span>:${child}</span></li>`;
+            } else if(typeof child === 'object') {
               treeHtml += traverse(child);
             } else {
-              treeHtml += `<li role="none"><span>"${child}"</span></li>`;
+              treeHtml += `<li role="none"><span>${child}</span></li>`;
             }
           });
 
