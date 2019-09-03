@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       let treeHtml = '';
       if(node) {
-        let { location } = node;
+        let { location, type } = node;
         let { begin, end, expression, keyword, name, operator }  = location;
         if(expression) {
           let { begin_pos, end_pos } = expression;
@@ -257,6 +257,11 @@ document.addEventListener('DOMContentLoaded', function() {
           treeHtml += `<li role="treeitem" aria-expanded="false"><span>${node['type']}</span>`;
         }
         treeHtml += `<ul>`;
+
+        // Create type node
+        if(type) {
+            treeHtml += `<li role="none"><span>type: ${type}</span></li>`;
+        }
 
         // Create location node
         if(location) {
@@ -396,6 +401,7 @@ document.addEventListener('DOMContentLoaded', function() {
 elementStyle: function(dimension, size, gutterSize) {
       return {
         'width': '100%',
+        'overflow': 'auto'
       }
     },
 
