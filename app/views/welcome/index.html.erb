@@ -1,58 +1,20 @@
-<div class="grid-row">
-  <div class="grid-col">
-    <textarea id="editor">
-# Paste some ruby code here and
-# check the generated AST on the right
-tips = [
- "Click on any AST node with a '+' to expand it",
-
-  "Hovering over a node highlights the \
-   corresponding part in the source code",
-]
-def print_tips
-tips.each { |key, value| print "Tip #{key}: #{value}" }
-end
-    </textarea>
-
-    <div id="tab-wrapper">
-      <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#tree-view" role="tab" aria-controls="profile" aria-selected="true">Tree</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" id="home-tab" data-toggle="tab" href="#s-exp-view" role="tab" aria-controls="home" aria-selected="false">S-expressions</a>
-        </li>
-      </ul>
-      <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="tree-view" role="tabpanel" aria-labelledby="profile-tab">
-          <ul role="tree" id="ast-tree">
-          </ul>
-        </div>
-
-        <div class="tab-pane fade" id="s-exp-view" role="tabpanel" aria-labelledby="home-tab">
-          <textarea id="ast-editor"></textarea>
-        </div>
-      </div>
+<div id="split-view">
+  <div id="split-top-row" class="grid-col">
+    <div id="top-left-col">
+      <%= render 'source-view' %>
     </div>
+    <div id="top-right-col">
+      <%= render 'tree-view' %>
+    </div>
+    <div style="clear: both;"></div>
   </div>
-  <div class="grid-col">
+  <div id="split-bottom-row" class="grid-col">
+    <div id="bottom-left-col">
+      <%= render 'transform-view' %>
+    </div>
+    <div id="bottom-right-col">
+      <%= render 'output-view' %>
+    </div>
 
-    <textarea id="transform-editor">
-      # Your Transform Class should always extend from 
-      # Parser:: TreeRewriter
-      class Transform < Parser::TreeRewriter
-              def on_lvasgn(node)
-              # Reverse the variable names
-              replace(node.loc.to_hash[:name], node.children[0].to_s.reverse)
-              end
-
-              def on_def(node)
-              replace(node.loc.to_hash[:name], node.children[0].to_s.reverse)
-              end
-              end
-    </textarea>
-    <textarea id="output-editor">
-    </textarea>
   </div>
 </div>

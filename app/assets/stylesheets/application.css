@@ -38,10 +38,7 @@ footer {
   height: 30px;
 }
 
-.CodeMirror {
-  /*max-height: 48vh;*/
-  /*overflow: auto;*/
-}
+
 
 #tab-wrapper {
   border: 1px solid #dee2e6;
@@ -57,3 +54,15 @@ footer {
   background-color: #ff7;
 }
 
+
+
+.gutter {
+  height:100%;
+  background: #ddd;
+}
+
+
+#split-view {
+  position:absolute;
+  top: 50px;
+}

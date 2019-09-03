@@ -321,7 +321,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if(node.children) {
           treeHtml += `<li role="treeitem" aria-expanded="false"><span>children: [ ]</span><ul>`;
           node.children.forEach(child => {
-            debugger;
             if(child == null) {
               treeHtml += `<li role="none"><span>nil</span></li>`;
             } else if(node['type'] === "sym") {
@@ -370,4 +369,49 @@ document.addEventListener('DOMContentLoaded', function() {
     markers.forEach(marker => marker.clear());
   });
 
+  var sizes = localStorage.getItem('split-sizes')
+
+  if (sizes) {
+        sizes = JSON.parse(sizes)
+  } else {
+        sizes = [50, 50] // default sizes
+  }
+
+
+  Split(['#split-top-row', '#split-bottom-row'], {
+    sizes: sizes,
+    direction: 'vertical',
+    elementStyle: function(dimension, size, gutterSize) {
+      return {
+        'height': 'calc(50% - 48px)'
+      }
+    },
+    onDragEnd: function(sizes) {
+              localStorage.setItem('split-sizes', JSON.stringify(sizes))
+          },
+  });
+
+  Split(['#top-left-col', '#top-right-col'], {
+    sizes: [50, 50],
+elementStyle: function(dimension, size, gutterSize) {
+      return {
+        'width': '100%',
+      }
+    },
+
+  });
+
+
+  Split(['#bottom-left-col', '#bottom-right-col'], {
+    sizes: [50, 50],
+elementStyle: function(dimension, size, gutterSize) {
+      return {
+        'width': '100%',
+      }
+    },
+
+  });
+
+
 });
+
