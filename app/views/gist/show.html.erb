@@ -1,0 +1,25 @@
+<div id="split-view">
+  <div id="split-top-row" class="grid-col">
+    <div id="top-left-col">
+      <textarea id="editor">
+        <%= @source_code %>
+      </textarea>
+    </div>
+    <div id="top-right-col">
+      <%= render 'welcome/tree-view' %>
+    </div>
+    <div style="clear: both;"></div>
+  </div>
+  <div id="split-bottom-row" class="grid-col">
+    <div id="bottom-left-col">
+      <textarea id="transform-editor">
+      <%= @transform %>
+      </textarea>
+    </div>
+    <div id="bottom-right-col">
+      <textarea id="output-editor"></textarea>
+    </div>
+
+  </div>
+</div>
+

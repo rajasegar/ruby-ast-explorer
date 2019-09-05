@@ -181,6 +181,42 @@ document.addEventListener('DOMContentLoaded', function() {
     updateAst(code, transform);
   }, 250));
 
+  editor.on('cursorActivity', function(e) {
+     const line = e.doc.getCursor().line;   //Cursor line
+    const ch = e.doc.getCursor().ch;       //Cursor character
+
+    let doc = editor.getDoc();
+    let totalLines = doc.lineCount();
+
+    let pos = 0;
+    for(index = 0; index < line; index++ ) {
+      let lineLength = doc.getLine(index).length + 1; // Adding 1 for new line
+
+        pos += lineLength; 
+    }
+
+    pos += ch;
+
+    console.log(pos);
+
+    let nodes = Array.from(document.querySelectorAll('li')).filter(el => {
+      let {beginPos, endPos } = el.dataset;
+      return pos > beginPos && pos < endPos;
+
+    });
+      
+      nodes.forEach(node => {
+        console.log(node.attributes['aria-expanded'])
+        node.attributes['aria-expanded'] = "true";
+      });
+
+
+
+    console.log(nodes);
+
+
+  });
+
 
 
   transformEditor.on("change",debounce(function(cm, change) {
@@ -193,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let _self = this;
     _self.disabled = true;
     $.ajax({
-      url: "/ast/gist",
+      url: "/gist",
       type: "post",
       data: { code: editor.getValue(), transform: transformEditor.getValue()},
       success: function(data) {

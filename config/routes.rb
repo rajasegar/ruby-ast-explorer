@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
+  get 'gist/show'
   get 'ast/index'
   resources :ast
+  resources :gist
   get 'welcome/index'
   post 'ast/gist' => 'ast#gist'
   get "/auth/github/callback" => "sessions#create"
