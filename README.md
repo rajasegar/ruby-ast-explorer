@@ -41,6 +41,7 @@ It has got four panes with the following content:
 * https://github.com/jonatas/fast
 * http://www.zenspider.com/projects/ruby2ruby.html
 * [Parsing Ruby](https://whitequark.org/blog/2012/10/02/parsing-ruby/)
+* [awesome-ruby-ast](https://github.com/rajasegar/awesome-ruby-ast)
 
 Inspired by [AST Explorer](https://astexplorer.net) by [Felix Kling](https://github.com/fkling)
 
