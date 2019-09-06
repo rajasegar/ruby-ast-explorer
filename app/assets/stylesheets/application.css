@@ -19,6 +19,15 @@ body {
   overflow: hidden;
 }
 
+.dark-theme footer {
+  background: #343a40;
+  color: #fff;
+}
+
+.dark-theme .custom-control-label {
+  color: #fff;
+}
+
 h1 {
   font-size: larger;
 }
@@ -36,6 +45,15 @@ footer {
   width: 100%;
   z-index: 9999;
   height: 30px;
+  line-height: 30px;
+}
+
+footer p {
+  margin-bottom: 0;
+}
+
+.navbar {
+  padding: 0 1rem;
 }
 
 
@@ -46,7 +64,7 @@ footer {
 }
 
 .tab-content {
-  max-height: 48vh;
+  height: calc(100% - 40px);
   overflow: auto;
 }
 
@@ -62,7 +80,9 @@ footer {
 }
 
 
+
+
 #split-view {
-  height: calc(100% - 96px);
+  height: calc(100vh - 40px + 30px);
   width: 100%;
 }

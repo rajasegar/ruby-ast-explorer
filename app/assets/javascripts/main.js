@@ -257,9 +257,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if(e.target.checked) {
       $primarynav.classList.replace('navbar-light', 'navbar-dark');
       $primarynav.classList.replace('bg-light', 'bg-dark');
+      document.body.classList.add('dark-theme');
     } else {
       $primarynav.classList.replace('navbar-dark', 'navbar-light');
       $primarynav.classList.replace('bg-dark', 'bg-light');
+      document.body.classList.remove('dark-theme');
     }
 
   });
@@ -427,6 +429,11 @@ document.addEventListener('DOMContentLoaded', function() {
         'height': 'calc(50% - 48px)'
       }
     },
+    gutterStyle: function(dimension, gutterSize) {
+      return {
+        'height': '4px'
+      }
+    },
     onDragEnd: function(sizes) {
               localStorage.setItem('split-sizes', JSON.stringify(sizes))
           },
@@ -434,24 +441,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
   Split(['#top-left-col', '#top-right-col'], {
     sizes: [50, 50],
-elementStyle: function(dimension, size, gutterSize) {
+    elementStyle: function(dimension, size, gutterSize) {
       return {
         'width': '100%',
-        'overflow': 'auto'
+        'overflow': 'hidden',
       }
     },
+    gutterStyle: function(dimension, gutterSize) {
+      return {
+        'width': '4px'
+      }
+    }
 
   });
 
 
   Split(['#bottom-left-col', '#bottom-right-col'], {
     sizes: [50, 50],
-elementStyle: function(dimension, size, gutterSize) {
+    elementStyle: function(dimension, size, gutterSize) {
       return {
         'width': '100%',
       }
     },
-
+    gutterStyle: function(dimension, gutterSize) {
+      return {
+        'width': '4px'
+      }
+    }
   });
 
 

@@ -27,6 +27,9 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <%= link_to "New Transform", root_path, :class => 'nav-link' %>
+          </li>
         </ul>
         <form class="form-inline">
           <% if session[:user_id] %>
@@ -34,7 +37,7 @@
           <% elsif session[:gist_id] %>
           <button id="create-gist" class="btn btn-secondary btn-sm mr-5"  type="button">Update gist</button>
         <% else %>
-          <a class="btn btn-secondary btn-sm mr-5" href="/auth/github" role="button" data-toggle="tooltip" data-placement="bottom" title="Please sign in to export your transforms as gist" >Sign in with Github</a>
+          <a class="btn btn-link  mr-5" href="/auth/github" role="button" data-toggle="tooltip" data-placement="bottom" title="Please sign in to export your transforms as gist" >Sign in with Github</a>
         <% end %>
           <div class="custom-control custom-switch custom-control-inline">
             <input type="checkbox" class="custom-control-input" id="switch-theme">
