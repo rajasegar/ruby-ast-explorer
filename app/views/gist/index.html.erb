@@ -1,0 +1,8 @@
+<div class="container">
+  <h1>Import from Gist</h1>
+  <div class="list-group">
+    <% @gists.each do |gist| %>
+      <a class="list-group-item list-group-item-action" href="/gist/<%= gist['id'] %>"><%= gist['description'] %> : <%= gist['files'].keys.join(', ') %></a>
+    <% end %>
+  </ul>
+</div>

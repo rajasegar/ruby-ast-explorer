@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/rajasegar/gist.git
-  revision: e4cbdd6988615c6b31b5a51ae3b67694c93a0b92
-  branch: read-gist
+  revision: bdcd7561ae9239b7b7b78712a5eafae3201b9c49
+  branch: fix-api
   specs:
     gist (5.0.0)
 

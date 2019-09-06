@@ -1,4 +1,19 @@
 class GistController < ApplicationController
+
+  def ast_explorer_gist?(files)
+    if files
+      files.has_key?("transform.rb") and files.has_key?("source.rb")
+    else
+      false
+    end
+  end
+
+  def index
+    response = Gist.list_all_gists
+    @gists = JSON.parse(response.body).select { |gist| ast_explorer_gist?(gist['files']) }
+    #@gists = JSON.parse(response.body)
+  end
+
   def show
     gist_id = params[:id]
     session[:gist_id] = gist_id
