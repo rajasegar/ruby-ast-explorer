@@ -12,6 +12,9 @@ class AstController < ApplicationController
   end
 
   def create
+    @source_code = params[:code]
+    @transform = params[:transform]
+
     ast = Parser::CurrentRuby.parse(params[:code])
 
     # Doing eval is not that safe, need to sanitize

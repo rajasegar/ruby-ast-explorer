@@ -66,3 +66,5 @@ gem 'jquery-rails'
 gem 'gist', git: 'https://github.com/rajasegar/gist.git', branch: 'fix-api'
 gem 'omniauth-github'
 gem 'octokit'
+
+gem 'webpacker', '~> 4.x'

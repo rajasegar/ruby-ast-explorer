@@ -1,39 +1,9 @@
+/*
 document.addEventListener('turbolinks:load', function() {
 
   const markers = [];
 
-  const processorList = [
-    "arg",
-    "argument",
-    "back_ref",
-    "blockarg",
-    "casgn",
-    "const",
-    "cvar",
-    "cvasgn",
-    "def",
-    "defs",
-    "gvar",
-    "gvasgn",
-    "ivar",
-    "ivasgn",
-    "kwarg",
-    "kwoptarg",
-    "kwrestarg",
-    "lvar",
-    "lvasgn",
-    "nth_ref",
-    "op_asgn",
-    "optarg",
-    "procarg0",
-    "restarg",
-    "send",
-    "shadowarg",
-    "var",
-    "vasgn"
-  ];
-
-  const editorOptions = {
+    const editorOptions = {
     mode: "text/x-ruby",
     matchBrackets: true,
     indentUnit: 2,
@@ -473,3 +443,4 @@ document.addEventListener('turbolinks:load', function() {
 
 });
 
+*/
