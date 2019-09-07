@@ -13,6 +13,7 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
-      'camelcase': 0
+      'camelcase': 0,
+      'no-plusplus': 0
     }
 };
