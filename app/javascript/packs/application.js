@@ -180,6 +180,8 @@ document.addEventListener('turbolinks:load', () => {
     markers.forEach((marker) => marker.clear());
   });
 
+  /*
+
   let sizes = localStorage.getItem('split-sizes');
 
   if (sizes) {
@@ -237,4 +239,5 @@ document.addEventListener('turbolinks:load', () => {
       };
     },
   });
+  */
 });

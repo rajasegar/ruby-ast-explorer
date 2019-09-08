@@ -16,8 +16,11 @@
 body {
   font-family: Helvetica, sans-serif;
   font-size: 13px;
-  overflow: hidden;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  overflow-x: hidden;
 }
+
 
 .dark-theme footer {
   background: #343a40;
@@ -64,7 +67,7 @@ footer p {
 }
 
 .tab-content {
-  height: calc(100% - 40px);
+  max-height: 40vh;
   overflow: auto;
 }
 
@@ -73,16 +76,25 @@ footer p {
 }
 
 
+.container-fluid {
+  padding-left: 1em;
+  padding-right: 0;
+}
 
-.gutter {
-  height:100%;
-  background: #ddd;
+.CodeMirror {
+  max-height: 40vh;
 }
 
 
+.col-6  {
+  border-bottom: 2px solid #ddd;
+  padding: 0;
+}
 
+.col-6:nth-child(odd) {
+  border-right: 2px solid #ddd;
+}
 
-#split-view {
-  height: calc(100vh - 40px + 30px);
-  width: 100%;
+.cm-s-solarized.CodeMirror {
+  box-shadow: none;
 }
