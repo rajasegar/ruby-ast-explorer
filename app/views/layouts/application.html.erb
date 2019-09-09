@@ -32,16 +32,20 @@
           <li class="nav-item">
             <%= link_to "New Transform", root_path, :class => 'nav-link' %>
           </li>
-          <li class="nav-item">
-            <%= link_to "Import from Gist", { controller: 'gist' }, class: 'nav-link' %>
-          </li>
+          <% if session[:user_id] %>
+            <li class="nav-item">
+              <%= link_to "Import from Gist", { controller: 'gist' }, class: 'nav-link' %>
+            </li>
+          <% end %>
         </ul>
         <form class="form-inline">
-          <% if session[:user_id] %>
+          <% if session[:user_id] and !session[:gist_id] %>
           <button id="create-gist" class="btn btn-secondary btn-sm mr-5"  type="button">Export as gist</button>
-          <% elsif session[:gist_id] %>
-          <button id="create-gist" class="btn btn-secondary btn-sm mr-5"  type="button">Update gist</button>
-        <% else %>
+        <% end %>
+          <% if session[:gist_id] %>
+          <button id="update-gist" class="btn btn-secondary btn-sm mr-5"  type="button">Update gist</button>
+        <% end %>
+        <% if !session[:user_id]  %>
           <a class="btn btn-link  mr-5" href="/auth/github" role="button" data-toggle="tooltip" data-placement="bottom" title="Please sign in to export your transforms as gist" >Sign in with Github</a>
         <% end %>
           <div class="custom-control custom-switch custom-control-inline">

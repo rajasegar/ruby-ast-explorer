@@ -1,5 +1,9 @@
 class WelcomeController < ApplicationController
   def index
+    if session[:user_id] == nil
+      redirect_to '/auth/github'
+    end
+    session[:gist_id] = nil
     @transform = %{# Your Transform Class should always extend from 
 # Parser:: TreeRewriter
 class Transform < Parser::TreeRewriter

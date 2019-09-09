@@ -129,11 +129,33 @@ document.addEventListener('turbolinks:load', () => {
       type: 'post',
       data: { code: editor.getValue(), transform: transformEditor.getValue() },
       success(data) {
+        console.log(data);
+        // window.alert(data.message);
+        // _self.disabled = false;
+        window.location = `/gist/${data.gist}`;
+      },
+      error(data) {
+        window.alert('Gist creation failed');
+        _self.disabled = false;
+      },
+    });
+  });
+
+  $('#update-gist').click(function () {
+    const _self = this;
+    _self.disabled = true;
+    const gistId = window.location.pathname.replace('/gist/', '');
+    $.ajax({
+      url: `/gist/${gistId}`,
+      type: 'put',
+      data: { code: editor.getValue(), transform: transformEditor.getValue() },
+      success(data) {
+        console.log(data);
         window.alert(data.message);
         _self.disabled = false;
       },
       error(data) {
-        window.alert('Gist creation failed');
+        window.alert('Gist update failed');
         _self.disabled = false;
       },
     });
