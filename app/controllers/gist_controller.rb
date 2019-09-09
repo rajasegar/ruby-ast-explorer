@@ -9,7 +9,7 @@ class GistController < ApplicationController
   end
 
   def index
-    response = Gist.list_all_gists
+    response = Gist.list_all_gists("",{ :access_token => session[:github_token]})
     @gists = JSON.parse(response.body).select { |gist| ast_explorer_gist?(gist['files']) }
   end
 
