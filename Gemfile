@@ -63,7 +63,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'parser'
 gem 'jquery-rails'
-gem 'gist', git: 'https://github.com/rajasegar/gist.git', branch: 'fix-api'
+gem 'gist', git: 'https://github.com/rajasegar/gist.git', ref: '55c2247'
 gem 'omniauth-github'
 gem 'octokit'
 
