@@ -98,3 +98,7 @@ footer p {
 .cm-s-solarized.CodeMirror {
   box-shadow: none;
 }
+
+.custom-control-label {
+  color: white;
+}

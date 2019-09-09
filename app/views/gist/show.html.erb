@@ -1,21 +1,21 @@
-<div id="split-view">
-  <div id="split-top-row" class="grid-col">
-    <div id="top-left-col">
+<main class="container-fluid">
+  <div class="row">
+    <div id="top-left-col" class="col-6">
       <%= render 'shared/source-view' %>
     </div>
-    <div id="top-right-col">
+    <div id="top-right-col" class="col-6">
       <%= render 'shared/tree-view' %>
     </div>
     <div style="clear: both;"></div>
   </div>
-  <div id="split-bottom-row" class="grid-col">
-    <div id="bottom-left-col">
+   <div class="w-100"></div>
+  <div class="row">
+    <div id="bottom-left-col" class="col-6">
       <%= render 'shared/transform-view' %>
     </div>
-    <div id="bottom-right-col">
-      <textarea id="output-editor"></textarea>
+    <div id="bottom-right-col" class="col-6">
+      <%= render 'shared/output-view' %>
     </div>
 
   </div>
-</div>
-
+</main>
