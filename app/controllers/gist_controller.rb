@@ -15,6 +15,11 @@ class GistController < ApplicationController
 
   def show
     gist_id = params[:id]
+
+    # Also need to check if he is the owner of the gist 
+    if session[:user_id]
+    session[:gist_id] = gist_id
+    end
     @transform = Gist.read_gist( gist_id, 'transform.rb', { :access_token => session[:github_token]})
     @source_code = Gist.read_gist( gist_id, 'source.rb', { :access_token => session[:github_token]})
   end
