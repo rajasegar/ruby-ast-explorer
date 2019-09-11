@@ -18,7 +18,7 @@ body {
   font-size: 13px;
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 
@@ -82,7 +82,8 @@ footer p {
 }
 
 .CodeMirror {
-  max-height: 40vh;
+    height: calc((100vh - 70px)/2);
+    max-height: calc((100vh - 70px)/2);
 }
 
 
