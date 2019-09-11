@@ -92,4 +92,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  ENV['GITHUB_KEY'] = '79ad14545cc1877b4ed8'
+  ENV['GITHUB_SECRET'] = '7e8de7e18eb6722c5bc9673b69b4cf7dfb5d6e86'
 end
