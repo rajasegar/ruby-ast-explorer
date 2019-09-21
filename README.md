@@ -51,3 +51,5 @@ Inspired by [AST Explorer](https://astexplorer.net) by [Felix Kling](https://git
 
 ## Other related tools
 * [Astrolabe](https://github.com/yujinakayama/astrolabe)
+* [codeshift](https://github.com/rajasegar/codeshift)
+* [cybertron](https://github.com/rajasegar/cybertron)
