@@ -1,45 +1,5 @@
 import processorList from './processorList';
-
-function getFromLine(editor, begin) {
-  let index = 0;
-
-  const doc = editor.getDoc();
-  const totalLines = doc.lineCount();
-
-  let pos = 0;
-  for (index = 0; index < totalLines; index++) { // eslint-disable-line
-    const lineLength = doc.getLine(index).length + 1; // Adding 1 for new line
-    if (begin < pos + lineLength) {
-      break;
-    } else {
-      pos += lineLength;
-    }
-  }
-
-  const line = index;
-  const ch = Math.abs(pos - begin);
-  return { line, ch };
-}
-
-function getEndLine(editor, begin, end) {
-  let index = 0;
-
-  const doc = editor.getDoc();
-  const totalLines = doc.lineCount();
-
-  let pos = 0;
-  for (index = 0; index < totalLines; index++) { // eslint-disable-line
-    const lineLength = doc.getLine(index).length + 1; // Adding 1 for new line
-    pos += lineLength;
-    if (end < pos) {
-      break;
-    }
-  }
-
-  const line = index;
-  const ch = Math.abs(begin - end);
-  return { line, ch };
-}
+import TreeLinks from './treeLinks';
 
 // https://davidwalsh.name/javascript-debounce-function
 function debounce(func, wait, immediate) {
@@ -73,18 +33,22 @@ function buildTreeView(ast) {
 
   function traverse(node) {
     let treeHtml = '';
+
     if (node) {
       const { location, type } = node;
       const {
         begin, end, expression, keyword, name, operator,
       } = location;
+
       if (expression) {
         const { begin_pos, end_pos } = expression; // eslint-disable-line
         const processorNode = (t) => (processorList.includes(t) ? `${t}: <span class="blue">#on_${t}</span>` : t);
-        treeHtml += `<li role="treeitem" aria-expanded="false" data-begin-pos="${begin_pos}" data-end-pos="${end_pos}"><span>${processorNode(node.type)}</span>`; // eslint-disable-line
+        treeHtml += `<li role="treeitem" aria-expanded="false" data-begin-pos="${begin_pos}" data-end-pos="${end_pos}">
+          <span>${processorNode(node.type)}</span>`; // eslint-disable-line
       } else {
         treeHtml += `<li role="treeitem" aria-expanded="false"><span>${node.type}</span>`;
       }
+
       treeHtml += '<ul>';
 
       // Create type node
@@ -194,8 +158,6 @@ function indentCode(ed) {
 
 
 export {
-  getFromLine,
-  getEndLine,
   debounce,
   buildTreeView,
   indentCode,

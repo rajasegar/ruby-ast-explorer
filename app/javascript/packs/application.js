@@ -1,15 +1,12 @@
 /* eslint no-console:0 */
-/* globals CodeMirror $ Split */
+/* globals CodeMirror $ */
 
 import {
-  getFromLine,
-  getEndLine,
   debounce,
   buildTreeView,
   indentCode,
 } from './utils';
 
-console.log('Hello World from Webpacker');
 document.addEventListener('turbolinks:load', () => {
   const markers = [];
 
@@ -83,22 +80,29 @@ document.addEventListener('turbolinks:load', () => {
   }, 250));
 
   editor.on('cursorActivity', (e) => {
+    // Collapse all items first
+    const trees = document.querySelectorAll('[role="tree"]');
+    for (let i = 0; i < trees.length; i++) {
+      trees[i].attributes['aria-expanded'] = 'false';
+    }
+
+
     const { line } = e.doc.getCursor(); // Cursor line
     const { ch } = e.doc.getCursor(); // Cursor character
 
+    console.log({ line, ch });
+
     const doc = editor.getDoc();
-    const totalLines = doc.lineCount();
 
     let pos = 0;
-    for (index = 0; index < line; index++) {
-      const lineLength = doc.getLine(index).length + 1; // Adding 1 for new line
+    for (let index = 0; index <= line; index++) {
+      const lineLength = doc.getLine(index).length; // Adding 1 for new line
 
       pos += lineLength;
     }
 
     pos += ch;
 
-    console.log(pos);
 
     const nodes = Array.from(document.querySelectorAll('li')).filter((el) => {
       const { beginPos, endPos } = el.dataset;
@@ -106,12 +110,15 @@ document.addEventListener('turbolinks:load', () => {
     });
 
     nodes.forEach((node) => {
-      console.log(node.attributes['aria-expanded']);
+      // HACK: to open full tree branch
+      if (node.parentElement && node.parentElement.parentElement) {
+        // node.parentElement.parentElement.click();
+        node.parentElement.parentElement.attributes['aria-expanded'] = 'true';
+      }
+      // node.click();
+      // node.style.backgroundColor = 'yellow';
       node.attributes['aria-expanded'] = 'true';
     });
-
-
-    console.log(nodes);
   });
 
 
@@ -129,7 +136,6 @@ document.addEventListener('turbolinks:load', () => {
       type: 'post',
       data: { code: editor.getValue(), transform: transformEditor.getValue() },
       success(data) {
-        console.log(data);
         // window.alert(data.message);
         // _self.disabled = false;
         window.location = `/gist/${data.gist}`;
@@ -150,7 +156,6 @@ document.addEventListener('turbolinks:load', () => {
       type: 'put',
       data: { code: editor.getValue(), transform: transformEditor.getValue() },
       success(data) {
-        console.log(data);
         window.alert(data.message);
         _self.disabled = false;
       },
@@ -183,12 +188,13 @@ document.addEventListener('turbolinks:load', () => {
 
   $(document).on('mouseover', '[role="treeitem"]', (event) => {
     const { beginPos, endPos } = event.currentTarget.dataset;
+
     // Clearing and pushing markers
     markers.forEach((marker) => marker.clear());
     if (beginPos && endPos) {
-      const markFrom = getFromLine(editor, beginPos);
-      const markTo = getEndLine(editor, beginPos, endPos);
-      markTo.ch = endPos + markFrom.ch;
+      const doc = editor.getDoc();
+      const markFrom = doc.posFromIndex(beginPos);
+      const markTo = doc.posFromIndex(endPos);
 
       const currentMark = editor.markText(markFrom, markTo, { className: 'styled-background' });
       markers.push(currentMark);
@@ -201,65 +207,4 @@ document.addEventListener('turbolinks:load', () => {
     // Clearing and pushing markers
     markers.forEach((marker) => marker.clear());
   });
-
-  /*
-
-  let sizes = localStorage.getItem('split-sizes');
-
-  if (sizes) {
-    sizes = JSON.parse(sizes);
-  } else {
-    sizes = [50, 50]; // default sizes
-  }
-
-
-  Split(['#split-top-row', '#split-bottom-row'], {
-    sizes,
-    direction: 'vertical',
-    elementStyle(dimension, size, gutterSize) {
-      return {
-        height: 'calc(50% - 48px)',
-      };
-    },
-    gutterStyle(dimension, gutterSize) {
-      return {
-        height: '4px',
-      };
-    },
-    onDragEnd(sizes) {
-      localStorage.setItem('split-sizes', JSON.stringify(sizes));
-    },
-  });
-
-  Split(['#top-left-col', '#top-right-col'], {
-    sizes: [50, 50],
-    elementStyle(dimension, size, gutterSize) {
-      return {
-        width: '100%',
-        overflow: 'hidden',
-      };
-    },
-    gutterStyle(dimension, gutterSize) {
-      return {
-        width: '4px',
-      };
-    },
-
-  });
-
-
-  Split(['#bottom-left-col', '#bottom-right-col'], {
-    sizes: [50, 50],
-    elementStyle(dimension, size, gutterSize) {
-      return {
-        width: '100%',
-      };
-    },
-    gutterStyle(dimension, gutterSize) {
-      return {
-        width: '4px',
-      };
-    },
-  });
-  */
 });

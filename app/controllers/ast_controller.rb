@@ -24,11 +24,15 @@ class AstController < ApplicationController
 
     buffer        = Parser::Source::Buffer.new('(example)')
     buffer.source = params[:code]
-    temp = Parser::CurrentRuby.parse(params[:code])
-    rewriter = Transform.new
+    # begin
+      temp = Parser::CurrentRuby.parse(params[:code])
+      rewriter = Transform.new
 
-    # Rewrite the AST, returns a String with the new form.
-    output = rewriter.rewrite(buffer, temp)
+      # Rewrite the AST, returns a String with the new form.
+      output = rewriter.rewrite(buffer, temp)
+    # rescue StandardError
+      # output = params[:code]
+    # end
 
     respond_to do |format|
       format.json { render json: { ast: ast.to_s, output: output.to_s, treeData: ast.to_json } }
