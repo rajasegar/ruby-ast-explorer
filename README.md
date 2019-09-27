@@ -7,7 +7,7 @@ and the [TreeWriter](https://www.rubydoc.info/github/whitequark/parser/Parser/Tr
 of the gem to apply transformations on the AST nodes and convert them back to source code.
 
 We can take the transformation logic and put into a ruby file like `transform.rb` and use 
-the same to do large scale refactorings with your ruby code base using a tool like [codeshift](https://github.com/rajasegar/codeshift).
+the same to do large scale refactorings with your ruby code base using tools like [codeshift](https://github.com/rajasegar/codeshift) and [cybertron](https://github.com/rajasegar/cybertron).
 
 ```sh
 $ codeshift -t transform.rb app/models/**/*.rb
@@ -51,3 +51,5 @@ Inspired by [AST Explorer](https://astexplorer.net) by [Felix Kling](https://git
 
 ## Other related tools
 * [Astrolabe](https://github.com/yujinakayama/astrolabe)
+* [codeshift](https://github.com/rajasegar/codeshift)
+* [cybertron](https://github.com/rajasegar/cybertron)
